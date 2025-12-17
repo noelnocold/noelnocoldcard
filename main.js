@@ -285,10 +285,10 @@ function speak(text) {
 function speakWelcome() {
     if (STATE.hasSpokenWelcome) return Promise.resolve();
     STATE.hasSpokenWelcome = true;
-    const part1 = 'Thank you for joining us Welcome to';
+    const part1 = 'Thank you for joining us, Welcome to';
     const part2 = 'Noel No Cool Season Three.';
     // nói phần 1, chờ 600ms, rồi nói phần 2 (tạo khoảng nghỉ nhẹ)
-    return speak(part1).then(() => new Promise(resolve => setTimeout(resolve, 600))).then(() => speak(part2));
+    return speak(part1).then(() => new Promise(resolve => setTimeout(resolve, 200))).then(() => speak(part2));
 }
 
 // Popup display helpers for speech hint
