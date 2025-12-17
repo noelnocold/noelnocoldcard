@@ -271,8 +271,8 @@ function speak(text) {
             // ép ngữ cảnh tiếng Anh Mỹ để ưu tiên voice en-US
             u.lang = 'en-US';
             if (SPEECH.voice) u.voice = SPEECH.voice;
-            u.rate = 0.8; // Tốc độ nói
-            u.pitch = 1; // Giọng cao hơn một chút
+            u.rate = 0.9; // Tốc độ nói
+            u.pitch = 1.6; // Giọng cao hơn một chút
             u.volume = 1.5; // Âm lượng tối đa
             u.onend = () => resolve();
             u.onerror = () => resolve();
