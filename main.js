@@ -285,8 +285,8 @@ function speak(text) {
 function speakWelcome() {
     if (STATE.hasSpokenWelcome) return Promise.resolve();
     STATE.hasSpokenWelcome = true;
-    const part1 = 'Thank you for joining us, Welcome to';
-    const part2 = 'Noel No Cool Season Three.';
+    const part1 = 'Thank you for joining us, Welcome to. Noel No Cool Season Three.';
+    const part2 = '';
     // nói phần 1, chờ 600ms, rồi nói phần 2 (tạo khoảng nghỉ nhẹ)
     return speak(part1).then(() => new Promise(resolve => setTimeout(resolve, 1))).then(() => speak(part2));
 }
