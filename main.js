@@ -271,9 +271,9 @@ function speak(text) {
             // ép ngữ cảnh tiếng Anh Mỹ để ưu tiên voice en-US
             u.lang = 'en-US';
             if (SPEECH.voice) u.voice = SPEECH.voice;
-            u.rate = 0.8;
-            u.pitch = 1.05;
-            u.volume = 1.3;
+            u.rate = 0.8; // Tốc độ nói
+            u.pitch = 1; // Giọng cao hơn một chút
+            u.volume = 1.5; // Âm lượng tối đa
             u.onend = () => resolve();
             u.onerror = () => resolve();
             window.speechSynthesis.cancel();
@@ -285,7 +285,10 @@ function speak(text) {
 function speakWelcome() {
     if (STATE.hasSpokenWelcome) return Promise.resolve();
     STATE.hasSpokenWelcome = true;
-    return speak('Thank you for joining us, welcome you to, Noel No Cool Session Three.');
+    const part1 = 'Thank you for joining us Welcome to';
+    const part2 = 'Noel No Cool Season Three.';
+    // nói phần 1, chờ 600ms, rồi nói phần 2 (tạo khoảng nghỉ nhẹ)
+    return speak(part1).then(() => new Promise(resolve => setTimeout(resolve, 600))).then(() => speak(part2));
 }
 
 // Popup display helpers for speech hint
