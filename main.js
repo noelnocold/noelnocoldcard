@@ -28,7 +28,7 @@ const CONFIG = {
     WIDTH_EXPAND_MS: 2800,  // Thời điểm bắt đầu mở rộng + xoay (sau khi mở cao 1 chút)
 
     // Physics
-    ROTATION_SENSITIVITY: 180 / 300, // 300px = 180 độ
+    ROTATION_SENSITIVITY: 180 / 160, // 300px = 180 độ
     MAX_TILT: 10,
     TILT_SENSITIVITY: 0.1,
     BARCODE_VALUE: "1256",
