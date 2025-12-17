@@ -271,9 +271,9 @@ function speak(text) {
             // ép ngữ cảnh tiếng Anh Mỹ để ưu tiên voice en-US
             u.lang = 'en-US';
             if (SPEECH.voice) u.voice = SPEECH.voice;
-            u.rate = 1;
+            u.rate = 0.8;
             u.pitch = 1.05;
-            u.volume = 1;
+            u.volume = 1.3;
             u.onend = () => resolve();
             u.onerror = () => resolve();
             window.speechSynthesis.cancel();
