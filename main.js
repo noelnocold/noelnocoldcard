@@ -1,4 +1,3 @@
-
 // ==========================================
 // 1. CONFIGURATION & STATE
 // ==========================================
@@ -221,26 +220,43 @@ function pickEnglishFemaleVoice() {
         const voices = window.speechSynthesis.getVoices ? window.speechSynthesis.getVoices() : [];
         if (!voices || voices.length === 0) return;
 
+        // lọc các voice hỗ trợ tiếng Anh
         const enVoices = voices.filter(v => (v.lang || '').toLowerCase().startsWith('en'));
+
+        // Từ khóa / tên ưu tiên cho giọng nữ phổ biến trên Android/iOS/Chrome/Safari
+        const femaleKeywords = [
+            'female', 'samantha', 'zira', 'alva', 'amy', 'alloy', 'fiona', 'tessa', 'amelia', 'maria', 'victoria', 'bella', 'linda', 'aria'
+        ];
         const preferredNames = [
-            'Microsoft Aria Online (Natural) - English (United States)',
-            'Microsoft Aria - English (United States)',
-            'Microsoft Zira Desktop - English (United States)',
+            'Google UK English Female',
             'Google US English',
-            'Google English',
-            'Samantha',
-            'Karen'
+            'Samantha',     // iOS
+            'Alva',         // some browsers
+            'Amy',          // Amazon/other
+            'Microsoft Zira',
+            'en-US-Wavenet-F', // wavenet female pattern
+            'en-US-Standard-E' // fallback female-like
         ];
 
-        let chosen = null;
-        for (const name of preferredNames) {
-            const match = enVoices.find(v => v.name && v.name.indexOf(name) !== -1);
-            if (match) { chosen = match; break; }
+        // 1) try to find en-US voice that matches female keywords
+        let chosen = enVoices.find(v =>
+            (v.lang || '').toLowerCase().startsWith('en-us') &&
+            femaleKeywords.some(k => (v.name || '').toLowerCase().includes(k))
+        );
+
+        // 2) then try preferred exact names
+        if (!chosen) {
+            for (const name of preferredNames) {
+                const match = enVoices.find(v => v.name && v.name.toLowerCase().indexOf(name.toLowerCase()) !== -1);
+                if (match) { chosen = match; break; }
+            }
         }
 
+        // 3) fallback: any en-US, or any en voice containing female keyword, or first en voice
         if (!chosen) {
-            chosen = enVoices.find(v => /female|zira|aria|samantha|karen|zira/i.test((v.name || '') + ' ' + (v.voiceURI || '')))
-                || enVoices[0];
+            chosen = enVoices.find(v => (v.lang || '').toLowerCase().startsWith('en-us')) ||
+                     enVoices.find(v => femaleKeywords.some(k => (v.name || '').toLowerCase().includes(k))) ||
+                     enVoices[0];
         }
 
         if (chosen) SPEECH.voice = chosen;
@@ -252,7 +268,8 @@ function speak(text) {
         try {
             if (!('speechSynthesis' in window)) return resolve();
             const u = new SpeechSynthesisUtterance(text);
-            u.lang = (SPEECH.voice && SPEECH.voice.lang) ? SPEECH.voice.lang : 'en-US';
+            // ép ngữ cảnh tiếng Anh Mỹ để ưu tiên voice en-US
+            u.lang = 'en-US';
             if (SPEECH.voice) u.voice = SPEECH.voice;
             u.rate = 1;
             u.pitch = 1.05;
