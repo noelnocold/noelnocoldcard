@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Glass Card 3D</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Thư viện tạo mã vạch -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+    <!-- Font Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Mountains+of+Christmas:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Mountains+of+Christmas:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body class="flex flex-col items-center justify-center min-h-screen p-4 gap-2">
+
+    <!-- Pre-Start Reminder Modal -->
+    <div id="pre-reminder" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center">
+        <div
+            class="max-w-md w-[90%] sm:w-full mx-auto p-6 rounded-2xl bg-white/10 border border-white/20 text-white shadow-xl">
+            <h2 class="text-xl font-bold mb-3 font-christmas tracking-wide">Nhắc nhở</h2>
+            <p class="text-sm leading-relaxed mb-5 text-gray-100">
+                Bạn có thể chụp hoặc quay màn hình để lưu giữ và chia sẽ thẻ tham dự của bạn!
+            </p>
+            <div class="flex justify-end">
+                <button id="start-btn" class="glass-btn px-4 py-2 rounded-md">
+                    Oke
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Decoration -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <!-- Main Card Area -->
+    <div id="card-container" class="card-container">
+        <div id="card-inner" class="card-inner">
+
+            <!-- MẶT TRƯỚC -->
+            <div class="glass-face card-front" id="card-front-content">
+                <!-- Nội dung chính (3/4 chiều rộng) -->
+                <div class="w-4/5 h-full p-6 flex flex-col justify-between text-white relative z-10">
+                    <div>
+                        <div class="flex items-center gap-2 opacity-90 mb-1">
+                            <!-- Đổi chấm thành màu vàng kim loại cho hợp Noel -->
+                            <span
+                                class="w-2 h-2 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.8)]"></span>
+                            <p class="text-xs uppercase tracking-widest text-yellow-100">Access Pass</p>
+                        </div>
+                        <h2 class="text-3xl font-bold font-christmas tracking-wide mb-1 text-red-100 drop-shadow-md">
+                            NOEL NO COLD NO.3</h2>
+                        <p class="text-xs text-gray-200">Cat Tuong Hall, Nong Lam University</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="h-[1px] w-full bg-gradient-to-r from-red-200/50 to-transparent"></div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <p class="text-[10px] text-gray-300 uppercase">Full Name</p>
+                                <p id="card-name" class="text-sm font-semibold tracking-wide text-white">NO NAME</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-gray-300 uppercase">Date</p>
+                                <p class="text-sm font-semibold tracking-wide text-white">21/12</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Họa tiết trang trí chìm (Bông tuyết đơn giản hóa bằng hình tròn/border) -->
+                    <div
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 border border-white/20 rounded-full z-[-1] border-dashed">
+                    </div>
+                    <div
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-white/10 rounded-full z-[-1]">
+                    </div>
+                    <!-- Decor bông tuyết nhỏ (Text base) -->
+                    <div class="absolute top-4 right-4 text-white/20 text-4xl select-none">❄</div>
+                    <div class="absolute bottom-20 left-4 text-white/10 text-2xl select-none">❅</div>
+                </div>
+
+                <!-- Cột Mã Vạch (1/4 chiều rộng, Bên phải) -->
+                <div
+                    class="w-1/5 h-full border-l border-white/20 bg-red-900/20 flex items-center justify-center relative overflow-hidden">
+                    <!-- Xoay container mã vạch 90 độ để full chiều cao -->
+                    <div class="transform rotate-90 scale-150 opacity-90 mix-blend-screen" id="barcode-wrapper">
+                        <svg id="barcode"></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MẶT SAU -->
+            <div class="glass-face card-back p-6 text-center">
+                <div
+                    class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4 backdrop-blur-md border border-white/20">
+                    <!-- Icon Cây Thông thay cho icon bảo mật cũ -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-300" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2 font-christmas tracking-wider">Snower Certification Card</h3>
+                <p class="text-xs text-gray-200 mb-6 leading-relaxed">
+                    Bạn nằm trong danh sách được nhận quà từ Ông già Noel.
+                    Vui lòng bảo quản cẩn thận để có một ngày đông không lạnh.
+                </p>
+                <div class="w-full h-10 bg-black/30 rounded flex items-center justify-center border border-white/10">
+                    <span class="text-sm font-mono tracking-widest text-red-200">YOUR CODE: <span
+                            id="gift-code">***</span></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Controls placeholder (download removed) -->
+    <div class="flex gap-4 opacity-0 transition-opacity duration-1000" id="controls"></div>
+
+    <!-- Speech popup (hidden by default) -->
+    <div id="speech-popup" class="speech-popup" aria-hidden="true">Hi everyone, please flip the card!</div>
+
+    <!-- Important Notice Below Card -->
+    <div class="mt-2 max-w-x2 text-center text-white/90 rounded-xl px-4 py-3 shadow-lg"
+        style="background: rgba(6,45,36,0.45); border:1px solid rgba(255,255,255,0.04);">
+        ‼️Thẻ tham dự có giá trị vào cửa. Vui lòng xuất trình khi tham dự sự kiện.‼️
+    </div>
+    <!-- Main Script -->
+    <script src="./main.js"></script>
+</body>
+
+</html>
